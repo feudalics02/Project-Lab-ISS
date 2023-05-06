@@ -5,16 +5,16 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="632.0" prefWidth="832.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lab.iss.controllers.DoctorController">
+<AnchorPane prefHeight="632.0" prefWidth="832.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lab.iss.controllers.DoctorController">
    <children>
-      <TableView layoutX="102.0" layoutY="61.0" prefHeight="200.0" prefWidth="641.0">
+      <TableView fx:id="tableOrders" layoutX="102.0" layoutY="61.0" prefHeight="200.0" prefWidth="641.0">
         <columns>
-          <TableColumn prefWidth="179.19997787475586" text="Order ID" />
-          <TableColumn prefWidth="316.79998779296875" text="Medicines" />
-            <TableColumn prefWidth="142.39996337890625" text="Status" />
+          <TableColumn fx:id="columnOrders" prefWidth="179.19997787475586" text="Order ID" />
+          <TableColumn fx:id="columnMedicines" prefWidth="316.79998779296875" text="Medicines" />
+            <TableColumn fx:id="columnStatus" prefWidth="142.39996337890625" text="Status" />
         </columns>
       </TableView>
-      <Button layoutX="752.0" layoutY="20.0" mnemonicParsing="false" text="Log out" />
+      <Button layoutX="752.0" layoutY="20.0" mnemonicParsing="false" onAction="#logout" text="Log out" />
       <TableView layoutX="253.0" layoutY="296.0" prefHeight="200.0" prefWidth="339.0">
         <columns>
           <TableColumn prefWidth="169.60003662109375" text="Name" />

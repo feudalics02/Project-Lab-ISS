@@ -1,5 +1,13 @@
 package lab.iss.repository;
 
-public interface IRepoDB {
+import java.util.List;
+
+public interface IRepoDB<T, ID> {
+
+    void add(T t);
+
+    void remove(ID id);
+
+    List<T> getAll();
 
 }

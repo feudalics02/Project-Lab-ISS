@@ -1,22 +1,24 @@
 package lab.iss.repository;
 
-import lab.iss.domain.Doctor;
+import lab.iss.domain.Pharmacist;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.*;
 
-public class RepoDoctors implements IRepoDB<Doctor, Integer> {
+public class RepoPharmacists implements IRepoDB<Pharmacist, Integer> {
 
     private final UtilsDB utils;
 
-    public RepoDoctors(UtilsDB utils) {
+    public RepoPharmacists(UtilsDB utils) {
         this.utils = utils;
     }
 
-
     @Override
-    public void add(Doctor doctor) {
+    public void add(Pharmacist pharmacist) {
 
     }
 
@@ -25,8 +27,8 @@ public class RepoDoctors implements IRepoDB<Doctor, Integer> {
 
     }
 
-    public Doctor getByUsername(String username) {
-        String SQL = "SELECT * FROM doctors WHERE username = ?";
+    public Pharmacist getByUsername(String username) {
+        String SQL = "SELECT * FROM pharmacists WHERE username = ?";
 
         try {
             Connection connection = utils.getConnection();
@@ -39,8 +41,7 @@ public class RepoDoctors implements IRepoDB<Doctor, Integer> {
                 String firstName = result.getString(2);
                 String lastName = result.getString(3);
                 String password = result.getString(5);
-                String department = result.getString(6);
-                return new Doctor(ID, firstName, lastName, username, password, department);
+                return new Pharmacist(ID, firstName, lastName, username, password);
             }
 
             statement.close();
@@ -54,9 +55,9 @@ public class RepoDoctors implements IRepoDB<Doctor, Integer> {
     }
 
     @Override
-    public List<Doctor> getAll() {
-        List<Doctor> doctors = new ArrayList<>();
-        String SQL = "SELECT * FROM doctors";
+    public List<Pharmacist> getAll() {
+        List<Pharmacist> pharmacists = new ArrayList<>();
+        String SQL = "SELECT * FROM pharmacists";
 
         try {
             Connection connection = utils.getConnection();
@@ -69,8 +70,7 @@ public class RepoDoctors implements IRepoDB<Doctor, Integer> {
                 String lastName = result.getString(3);
                 String username = result.getString(4);
                 String password = result.getString(5);
-                String department = result.getString(6);
-                doctors.add(new Doctor(ID, firstName, lastName, username, password, department));
+                pharmacists.add(new Pharmacist(ID, firstName, lastName, username, password));
             }
 
             statement.close();
@@ -80,6 +80,6 @@ public class RepoDoctors implements IRepoDB<Doctor, Integer> {
             throw new RuntimeException(e);
         }
 
-        return doctors;
+        return pharmacists;
     }
 }

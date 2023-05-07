@@ -39,8 +39,8 @@ public class RepoDoctors implements IRepoDB<Doctor, Integer> {
                 String firstName = result.getString(2);
                 String lastName = result.getString(3);
                 String password = result.getString(5);
-                String department = result.getString(6);
-                return new Doctor(ID, firstName, lastName, username, password, department);
+                int departmentID = result.getInt(6);
+                return new Doctor(ID, firstName, lastName, username, password, departmentID);
             }
 
             statement.close();
@@ -69,8 +69,8 @@ public class RepoDoctors implements IRepoDB<Doctor, Integer> {
                 String lastName = result.getString(3);
                 String username = result.getString(4);
                 String password = result.getString(5);
-                String department = result.getString(6);
-                doctors.add(new Doctor(ID, firstName, lastName, username, password, department));
+                int departmentID = result.getInt(6);
+                doctors.add(new Doctor(ID, firstName, lastName, username, password, departmentID));
             }
 
             statement.close();

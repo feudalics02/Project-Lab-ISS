@@ -36,18 +36,12 @@ public class PharmacistController {
 
     private Pharmacist pharmacist;
 
-    private Stage stage;
-
     public void setService(Service service) {
         this.service = service;
     }
 
     public void setPharmacist(Pharmacist pharmacist) {
         this.pharmacist = pharmacist;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     public void initialize() {
@@ -73,20 +67,8 @@ public class PharmacistController {
     }
 
     public void logout() {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/lab/iss/login.fxml"));
-            AnchorPane loginLayout = loader.load();
-            Scene scene = new Scene(loginLayout);
-            stage.setScene(scene);
-
-            LoginController controller = loader.getController();
-            controller.setService(service);
-            controller.setStage(stage);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        Stage stage = (Stage) tableOrders.getScene().getWindow();
+        stage.close();
     }
 
 }

@@ -41,7 +41,8 @@ public class RepoPharmacists implements IRepoDB<Pharmacist, Integer> {
                 String firstName = result.getString(2);
                 String lastName = result.getString(3);
                 String password = result.getString(5);
-                return new Pharmacist(ID, firstName, lastName, username, password);
+                int pharmacyID = result.getInt(6);
+                return new Pharmacist(ID, firstName, lastName, username, password, pharmacyID);
             }
 
             statement.close();
@@ -70,7 +71,8 @@ public class RepoPharmacists implements IRepoDB<Pharmacist, Integer> {
                 String lastName = result.getString(3);
                 String username = result.getString(4);
                 String password = result.getString(5);
-                pharmacists.add(new Pharmacist(ID, firstName, lastName, username, password));
+                int pharmacyID = result.getInt(6);
+                pharmacists.add(new Pharmacist(ID, firstName, lastName, username, password, pharmacyID));
             }
 
             statement.close();

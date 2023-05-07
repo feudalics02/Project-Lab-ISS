@@ -37,14 +37,8 @@ public class LoginController {
 
     private Service service;
 
-    private Stage stage;
-
     public void setService(Service service) {
         this.service = service;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     public void initialize() {
@@ -92,12 +86,13 @@ public class LoginController {
             loader.setLocation(getClass().getResource("/lab/iss/doctor.fxml"));
             AnchorPane loginLayout = loader.load();
             Scene scene = new Scene(loginLayout);
+            Stage stage = new Stage();
             stage.setScene(scene);
+            stage.show();
 
             DoctorController controller = loader.getController();
             controller.setService(service);
             controller.setDoctor(doctor);
-            controller.setStage(stage);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -110,12 +105,13 @@ public class LoginController {
             loader.setLocation(getClass().getResource("/lab/iss/pharmacist.fxml"));
             AnchorPane loginLayout = loader.load();
             Scene scene = new Scene(loginLayout);
+            Stage stage = new Stage();
             stage.setScene(scene);
+            stage.show();
 
             PharmacistController controller = loader.getController();
             controller.setService(service);
             controller.setPharmacist(pharmacist);
-            controller.setStage(stage);
         }
         catch (IOException e) {
             e.printStackTrace();

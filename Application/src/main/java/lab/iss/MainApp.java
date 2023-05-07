@@ -27,14 +27,11 @@ public class MainApp extends Application {
         AnchorPane loginLayout = loader.load();
         Scene scene = new Scene(loginLayout);
         stage.setScene(scene);
-        stage.setX(330);
-        stage.setY(100);
         stage.show();
 
         initializeService();
         LoginController controller = loader.getController();
         controller.setService(service);
-        controller.setStage(stage);
     }
 
     public void initializeService() throws IOException {

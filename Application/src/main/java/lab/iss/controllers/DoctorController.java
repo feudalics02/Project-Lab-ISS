@@ -37,18 +37,12 @@ public class DoctorController {
 
     private Doctor doctor;
 
-    private Stage stage;
-
     public void setService(Service service) {
         this.service = service;
     }
 
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     public void initialize() {
@@ -68,26 +62,14 @@ public class DoctorController {
         });
 
         Platform.runLater(() -> {
-            List<Order> orders = service.getOrders();
+            List<Order> orders = service.getOrdersForDepartment(doctor.getDepartment());
             tableOrders.setItems(FXCollections.observableArrayList(orders));
         });
     }
 
     public void logout() {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/lab/iss/login.fxml"));
-            AnchorPane loginLayout = loader.load();
-            Scene scene = new Scene(loginLayout);
-            stage.setScene(scene);
-
-            LoginController controller = loader.getController();
-            controller.setService(service);
-            controller.setStage(stage);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        Stage stage = (Stage) tableOrders.getScene().getWindow();
+        stage.close();
     }
 
 }

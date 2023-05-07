@@ -15,7 +15,7 @@ import java.util.List;
 
 public class RepoOrders implements IRepoDB<Order, Integer> {
 
-    private UtilsDB utils;
+    private final UtilsDB utils;
 
     public RepoOrders(UtilsDB utils) {
         this.utils = utils;
@@ -58,6 +58,32 @@ public class RepoOrders implements IRepoDB<Order, Integer> {
         return medicines;
     }
 
+    public List<Order> getByDepartment(int departmentID) {
+        List<Order> orders = new ArrayList<>();
+        String SQL = "SELECT * FROM orders WHERE id_doctor IN (SELECT id FROM doctors WHERE id_department = ?)";
+
+        try {
+            Connection connection = utils.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SQL);
+            statement.setInt(1, departmentID);
+            ResultSet result = statement.executeQuery();
+
+            while (result.next()) {
+                int ID = result.getInt(1);
+                LocalDateTime dateTime = result.getTimestamp(2).toLocalDateTime();
+                OrderStatus status = OrderStatus.valueOf(result.getString(3));
+                orders.add(new Order(ID, dateTime, status));
+            }
+
+            statement.close();
+            connection.close();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return orders;
+    }
     @Override
     public List<Order> getAll() {
         List<Order> orders = new ArrayList<>();

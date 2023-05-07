@@ -40,6 +40,14 @@ public class Service {
         return null;
     }
 
+    public List<Order> getOrdersForDepartment(int departmentID) {
+        List<Order> orders = repoOrders.getByDepartment(departmentID);
+        for (Order order : orders) {
+            order.setMedicines(repoOrders.getMedicines(order.getID()));
+        }
+        return orders;
+    }
+
     public List<Order> getOrders() {
         List<Order> orders = repoOrders.getAll();
         for (Order order : orders) {

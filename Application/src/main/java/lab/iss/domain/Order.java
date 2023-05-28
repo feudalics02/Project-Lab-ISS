@@ -2,30 +2,46 @@ package lab.iss.domain;
 
 import javafx.util.Pair;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class Order extends Entity<Integer> {
+@Entity
+@Table(name = "orders")
+public class Order extends AbsEntity<Integer> {
 
+    @Column(name = "id_doctor")
+    private int doctorID;
+
+    @Column(name = "order_time", columnDefinition = "TIMESTAMP")
     private LocalDateTime orderTime;
 
-    private List<Pair<Medicine, Integer>> medicines;
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    private Set<MedicinesOrder> medicines = new HashSet<>();
 
+    @Column(length = 50)
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    public Order(Integer ID, LocalDateTime orderTime, OrderStatus status) {
+    public Order(Integer ID, LocalDateTime orderTime, OrderStatus status, int doctorID) {
         super(ID);
         this.orderTime = orderTime;
         this.status = status;
-        medicines = new ArrayList<>();
+        this.doctorID = doctorID;
+    }
+
+    public Order() {
+        super(1);
+
     }
 
     public String medicinesToString() {
         StringBuilder str = new StringBuilder();
-        for (int i = 0; i < medicines.size(); i++) {
-            str.append(medicines.get(i).getKey().getName()).append(" x").append(medicines.get(i).getValue());
-            if (i < medicines.size() - 1) {
+        Iterator<MedicinesOrder> iter = medicines.iterator();
+        while (iter.hasNext()) {
+            MedicinesOrder medicine = iter.next();
+            str.append(medicine.getMedicine().getName()).append(" x").append(medicine.getQuantity());
+            if (iter.hasNext()) {
                 str.append(", ");
             }
         }
@@ -40,19 +56,27 @@ public class Order extends Entity<Integer> {
         this.orderTime = orderTime;
     }
 
-    public List<Pair<Medicine, Integer>> getMedicines() {
-        return medicines;
-    }
-
-    public void setMedicines(List<Pair<Medicine, Integer>> medicines) {
-        this.medicines = medicines;
-    }
-
     public OrderStatus getStatus() {
         return status;
     }
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    public int getDoctorID() {
+        return doctorID;
+    }
+
+    public void setDoctorID(int doctorID) {
+        this.doctorID = doctorID;
+    }
+
+    public Set<MedicinesOrder> getMedicines() {
+        return medicines;
+    }
+
+    public void setMedicines(Set<MedicinesOrder> medicines) {
+        this.medicines = medicines;
     }
 }

@@ -1,6 +1,6 @@
 package lab.iss.domain;
 
-public class Pharmacy extends Entity<Integer> {
+public class Pharmacy extends AbsEntity<Integer> {
 
     private String name;
 

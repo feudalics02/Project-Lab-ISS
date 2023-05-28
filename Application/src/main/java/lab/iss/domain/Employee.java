@@ -1,9 +1,15 @@
 package lab.iss.domain;
 
-public abstract class Employee extends Entity<Integer> {
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 
+@MappedSuperclass
+public abstract class Employee extends AbsEntity<Integer> {
+
+    @Column(name = "first_name")
     protected String firstName;
 
+    @Column(name = "last_name")
     protected String lastName;
 
     protected String username;

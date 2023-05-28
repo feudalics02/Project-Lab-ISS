@@ -8,13 +8,15 @@ import javafx.stage.Stage;
 import lab.iss.business.Service;
 import lab.iss.controllers.LoginController;
 import lab.iss.repository.RepoDoctors;
+import lab.iss.repository.RepoMedicines;
 import lab.iss.repository.RepoOrders;
 import lab.iss.repository.RepoPharmacists;
-import lab.iss.repository.UtilsDB;
+import org.hibernate.cfg.Configuration;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Level;
 
 public class MainApp extends Application {
 
@@ -22,6 +24,8 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("login.fxml"));
         AnchorPane loginLayout = loader.load();
@@ -34,20 +38,15 @@ public class MainApp extends Application {
         controller.setService(service);
     }
 
-    public void initializeService() throws IOException {
-        FileInputStream inputStream = new FileInputStream("app.config");
-        Properties properties = new Properties();
-        properties.load(inputStream);
+    public void initializeService() {
+        Configuration configuration = new Configuration();
+        configuration.configure("hibernate.cfg.xml");
 
-        String URL = properties.getProperty("URL");
-        String username = properties.getProperty("username");
-        String password = properties.getProperty("password");
-
-        UtilsDB utils = new UtilsDB(URL, username, password);
-        RepoDoctors repoDoctors = new RepoDoctors(utils);
-        RepoPharmacists repoPharmacists = new RepoPharmacists(utils);
-        RepoOrders repoOrders = new RepoOrders(utils);
-        service = new Service(repoDoctors, repoPharmacists, repoOrders);
+        RepoDoctors repoDoctors = new RepoDoctors(configuration);
+        RepoPharmacists repoPharmacists = new RepoPharmacists(configuration);
+        RepoOrders repoOrders = new RepoOrders(configuration);
+        RepoMedicines repoMedicines = new RepoMedicines(configuration);
+        service = new Service(repoDoctors, repoPharmacists, repoOrders, repoMedicines);
     }
 
     public static void main(String[] args) {

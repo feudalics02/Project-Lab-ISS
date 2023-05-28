@@ -1,12 +1,21 @@
 package lab.iss.domain;
 
-public class Department extends Entity<Integer> {
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "departments")
+public class Department extends AbsEntity<Integer> {
 
     private String name;
 
     public Department(Integer ID, String name) {
         super(ID);
         this.name = name;
+    }
+
+    public Department() {
+        super(1);
     }
 
     public String getName() {

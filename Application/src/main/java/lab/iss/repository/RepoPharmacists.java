@@ -1,25 +1,23 @@
 package lab.iss.repository;
 
 import lab.iss.domain.Pharmacist;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class RepoPharmacists implements IRepoDB<Pharmacist, Integer> {
 
-    private final UtilsDB utils;
+    private final SessionFactory sessionFactory;
 
-    public RepoPharmacists(UtilsDB utils) {
-        this.utils = utils;
+    public RepoPharmacists(Configuration configuration) {
+        sessionFactory = configuration.buildSessionFactory();
     }
 
     @Override
-    public void add(Pharmacist pharmacist) {
-
+    public int add(Pharmacist pharmacist) {
+        return 0;
     }
 
     @Override
@@ -28,58 +26,29 @@ public class RepoPharmacists implements IRepoDB<Pharmacist, Integer> {
     }
 
     public Pharmacist getByUsername(String username) {
-        String SQL = "SELECT * FROM pharmacists WHERE username = ?";
+        Pharmacist pharmacist = null;
 
-        try {
-            Connection connection = utils.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL);
-            statement.setString(1, username);
-            ResultSet result = statement.executeQuery();
-
-            if (result.next()) {
-                int ID = result.getInt(1);
-                String firstName = result.getString(2);
-                String lastName = result.getString(3);
-                String password = result.getString(5);
-                int pharmacyID = result.getInt(6);
-                return new Pharmacist(ID, firstName, lastName, username, password, pharmacyID);
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            List<Pharmacist> pharmacists = session.createQuery("SELECT p FROM Pharmacist p WHERE p.username = :username", Pharmacist.class)
+                    .setParameter("username", username).list();
+            if (pharmacists.size() > 0) {
+                pharmacist = pharmacists.get(0);
             }
-
-            statement.close();
-            connection.close();
-        }
-        catch (SQLException e) {
-            throw new RuntimeException(e);
+            session.getTransaction().commit();
         }
 
-        return null;
+        return pharmacist;
     }
 
     @Override
     public List<Pharmacist> getAll() {
-        List<Pharmacist> pharmacists = new ArrayList<>();
-        String SQL = "SELECT * FROM pharmacists";
+        List<Pharmacist> pharmacists;
 
-        try {
-            Connection connection = utils.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL);
-            ResultSet result = statement.executeQuery();
-
-            while (result.next()) {
-                int ID = result.getInt(1);
-                String firstName = result.getString(2);
-                String lastName = result.getString(3);
-                String username = result.getString(4);
-                String password = result.getString(5);
-                int pharmacyID = result.getInt(6);
-                pharmacists.add(new Pharmacist(ID, firstName, lastName, username, password, pharmacyID));
-            }
-
-            statement.close();
-            connection.close();
-        }
-        catch (SQLException e) {
-            throw new RuntimeException(e);
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            pharmacists = session.createQuery("SELECT p FROM Pharmacist p", Pharmacist.class).list();
+            session.getTransaction().commit();
         }
 
         return pharmacists;

@@ -93,6 +93,7 @@ public class LoginController {
             DoctorController controller = loader.getController();
             controller.setService(service);
             controller.setDoctor(doctor);
+            service.addObserver(controller);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -112,6 +113,7 @@ public class LoginController {
             PharmacistController controller = loader.getController();
             controller.setService(service);
             controller.setPharmacist(pharmacist);
+            service.addObserver(controller);
         }
         catch (IOException e) {
             e.printStackTrace();

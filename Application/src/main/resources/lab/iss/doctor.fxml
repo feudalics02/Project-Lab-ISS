@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="632.0" prefWidth="832.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lab.iss.controllers.DoctorController">
+<AnchorPane prefHeight="632.0" prefWidth="832.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lab.iss.controllers.DoctorController">
    <children>
       <TableView fx:id="tableOrders" layoutX="102.0" layoutY="61.0" prefHeight="200.0" prefWidth="641.0">
         <columns>
@@ -15,14 +15,14 @@
         </columns>
       </TableView>
       <Button layoutX="752.0" layoutY="20.0" mnemonicParsing="false" onAction="#logout" text="Log out" />
-      <TableView layoutX="253.0" layoutY="296.0" prefHeight="200.0" prefWidth="339.0">
+      <TableView fx:id="tableMedicines" layoutX="253.0" layoutY="296.0" prefHeight="200.0" prefWidth="339.0">
         <columns>
-          <TableColumn prefWidth="169.60003662109375" text="Name" />
-          <TableColumn minWidth="0.0" prefWidth="85.5999755859375" text="Quantity" />
-            <TableColumn prefWidth="76.800048828125" text="Selected" />
+          <TableColumn fx:id="nameColumn" prefWidth="169.60003662109375" text="Name" />
+          <TableColumn fx:id="quantityColumn" minWidth="0.0" prefWidth="85.5999755859375" text="Quantity" />
+            <TableColumn fx:id="selectedColumn" prefWidth="76.800048828125" text="Selected" />
         </columns>
       </TableView>
-      <Button layoutX="385.0" layoutY="521.0" mnemonicParsing="false" text="Place order" />
-      <Button layoutX="357.0" layoutY="569.0" mnemonicParsing="false" text="Add to selected order" />
+      <Button layoutX="385.0" layoutY="521.0" mnemonicParsing="false" onAction="#placeOrder" text="Place order" />
+      <Button layoutX="357.0" layoutY="569.0" mnemonicParsing="false" onAction="#addToOrder" text="Add to selected order" />
    </children>
 </AnchorPane>
